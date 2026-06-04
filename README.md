@@ -1,144 +1,56 @@
-# Marathon Skills 2026 — Next.js + Google Auth + Supabase
+# Marathon Skills 2026
 
-## Структура проекта
+## Деплой на Vercel — пошаговая инструкция
 
+### 1. Загрузи проект на GitHub
+Создай новый репозиторий на github.com и загрузи все файлы.
+
+### 2. Подключи к Vercel
+- Зайди на vercel.com → New Project → Import Git Repository
+- Выбери свой репозиторий
+
+### 3. Настройки Build (очень важно!)
+В разделе **Configure Project** установи:
 ```
-marathon-app/
-├── pages/
-│   ├── _app.js                      # SessionProvider
-│   ├── index.js                     # Главная страница (весь UI)
-│   ├── login.js                     # Страница входа через Google
-│   └── api/
-│       ├── auth/[...nextauth].js    # NextAuth (Google OAuth)
-│       └── participants/
-│           ├── index.js             # GET (список) + POST (создание)
-│           └── [id].js              # PUT (редактирование) + DELETE
-├── lib/
-│   └── supabase.js                  # Supabase клиент
-├── styles/
-│   └── globals.css
-├── supabase_schema.sql              # SQL для создания таблиц
-├── package.json
-└── next.config.js
+Framework Preset:  Next.js        ← обязательно!
+Build Command:     npm run build
+Output Directory:  .next
+Install Command:   npm install
 ```
 
----
+### 4. Переменные окружения (Environment Variables)
+Добавь все переменные из `.env.example`:
 
-## Шаг 1 — Supabase
-
-1. Зайди на [supabase.com](https://supabase.com), создай **новый проект**
-2. В разделе **SQL Editor** выполни содержимое файла `supabase_schema.sql`
-3. В разделе **Settings → API** скопируй:
-   - `Project URL` → это `NEXT_PUBLIC_SUPABASE_URL`
-   - `anon public` key → это `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `service_role` key → это `SUPABASE_SERVICE_ROLE_KEY`
-
----
-
-## Шаг 2 — Google OAuth
-
-1. Зайди в [Google Cloud Console](https://console.cloud.google.com/)
-2. Создай проект → **APIs & Services → Credentials**
-3. **Create Credentials → OAuth 2.0 Client ID**
-4. Application type: **Web application**
-5. Добавь Authorized redirect URIs:
-   ```
-   https://ВАШ_ДОМЕН.vercel.app/api/auth/callback/google
-   http://localhost:3000/api/auth/callback/google
-   ```
-6. Скопируй `Client ID` и `Client Secret`
-
----
-
-## Шаг 3 — Переменные окружения в Vercel
-
-В Vercel → твой проект → **Settings → Environment Variables** добавь:
-
-| Имя переменной | Значение |
+| Переменная | Где взять |
 |---|---|
-| `DATABASE_URL` | `postgresql://...` (из Supabase Settings → Database) |
-| `NEXT_PUBLIC_SUPABASE_URL` | URL проекта Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon ключ Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | service_role ключ Supabase |
-| `GOOGLE_CLIENT_ID` | Client ID из Google Console |
-| `GOOGLE_CLIENT_SECRET` | Client Secret из Google Console |
-| `NEXTAUTH_SECRET` | Случайная строка (генерируй: `openssl rand -base64 32`) |
-| `NEXTAUTH_URL` | `https://ВАШ_ДОМЕН.vercel.app` |
+| `NEXTAUTH_URL` | URL твоего Vercel-сайта, напр. `https://myapp.vercel.app` |
+| `NEXTAUTH_SECRET` | Любая случайная строка (можно сгенерировать: `openssl rand -base64 32`) |
+| `GOOGLE_CLIENT_ID` | console.cloud.google.com → Credentials → OAuth 2.0 |
+| `GOOGLE_CLIENT_SECRET` | Там же |
+| `NEXT_PUBLIC_SUPABASE_URL` | supabase.com → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Там же |
+| `TELEGRAM_BOT_TOKEN` | @BotFather в Telegram (опционально) |
 
----
-
-## Шаг 4 — Деплой
-
-### Вариант A: через GitHub
-```bash
-git init
-git add .
-git commit -m "Marathon Skills 2026"
-git remote add origin https://github.com/ТВО_НИК/marathon-skills.git
-git push -u origin main
+### 5. После деплоя — настрой Google OAuth
+В Google Console добавь Authorized redirect URI:
 ```
-Затем в Vercel: **New Project → Import from GitHub**
-
-### Вариант B: через Vercel CLI
-```bash
-npm install -g vercel
-vercel --prod
+https://YOUR_DOMAIN.vercel.app/api/auth/callback/google
 ```
 
----
-
-## Локальная разработка
-
-Создай файл `.env.local`:
+### Структура проекта
 ```
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-NEXTAUTH_SECRET=любая_случайная_строка
-NEXTAUTH_URL=http://localhost:3000
+pages/
+  index.js          — главная страница + все компоненты
+  login.js          — страница входа
+  _app.js           — корень приложения
+  api/
+    auth/[...nextauth].js   — Google OAuth
+    participants/
+      index.js      — GET список / POST создать
+      [id].js       — PUT обновить / DELETE удалить
+    telegram-webhook.js     — Telegram бот
+lib/
+  supabase.js       — клиент Supabase
+styles/
+  globals.css       — глобальные стили
 ```
-
-```bash
-npm install
-npm run dev
-```
-
----
-
-## Функциональность
-
-- ✅ Вход только через Google (OAuth 2.0)
-- ✅ Имя и фото пользователя в шапке
-- ✅ Защищённые маршруты (без авторизации → /login)
-- ✅ Supabase PostgreSQL как база данных
-- ✅ API через Vercel Serverless Functions (`/api/participants`)
-- ✅ Все запросы к БД проверяют `user_id` из сессии
-- ✅ CRUD участников: создание, просмотр, редактирование, удаление
-- ✅ ИМТ калькулятор с сохранением в БД
-- ✅ Фильтрация, поиск, сортировка, пагинация
-- ✅ Роли: Бегун / Координатор
-- ✅ Admin-панель (логин: admin / пароль: admin123)
-- ✅ Таймер обратного отсчёта до марафона
-- ✅ Загрузка фото участников
-
----
-
-## Таблица participants в Supabase
-
-| Поле | Тип | Описание |
-|---|---|---|
-| id | UUID | Первичный ключ |
-| owner_id | TEXT | Google user ID (привязка к пользователю) |
-| email | TEXT | Email участника |
-| name | TEXT | Имя |
-| surname | TEXT | Фамилия |
-| gender | TEXT | Пол |
-| role | TEXT | Бегун / Координатор |
-| country | TEXT | Страна |
-| dob | DATE | Дата рождения |
-| bmi | NUMERIC | Индекс массы тела |
-| photo | TEXT | Фото (base64) |
-| created_at | TIMESTAMPTZ | Дата создания |
-| updated_at | TIMESTAMPTZ | Дата изменения |
