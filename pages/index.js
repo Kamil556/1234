@@ -107,19 +107,20 @@ function drawGaugeOnCanvas(canvas, bmiVal) {
 
 /* ─── DESIGN TOKENS ─────────────────────────────────────────── */
 const card = {
-  background: 'var(--bg-card)',
+  background: 'rgba(255,255,255,0.7)',
   border: '1px solid var(--border)',
+  boxShadow: '0 2px 16px rgba(80,160,220,0.10)',
   borderRadius: 'var(--radius)',
   backdropFilter: 'blur(12px)',
 }
 const glassNav = {
-  background: 'rgba(6,6,16,0.85)',
-  backdropFilter: 'blur(20px)',
-  borderBottom: '1px solid var(--border)',
+  background: 'rgba(240,250,255,0.90)',
+  backdropFilter: 'blur(16px)',
+  borderBottom: '1px solid rgba(100,170,220,0.2)',
 }
 const inp = {
   width: '100%',
-  background: 'rgba(255,255,255,0.05)',
+  background: 'rgba(255,255,255,0.75)',
   border: '1px solid var(--border)',
   borderRadius: 'var(--radius-xs)',
   color: 'var(--text)',
@@ -140,8 +141,8 @@ const btnPrimary = {
 }
 const btnGhost = {
   ...btnPrimary,
-  background: 'rgba(255,255,255,0.06)',
-  border: '1px solid var(--border)',
+  background: 'rgba(255,255,255,0.6)',
+  border: '1px solid rgba(100,170,220,0.3)',
   color: 'var(--text-2)',
 }
 const btnDanger = { ...btnPrimary, background: '#FF4B6E' }
@@ -167,7 +168,7 @@ function Navbar({ onUsers, onRegister, onAdminLogin, session, isAdmin, onAdminLo
           <>
             {isAdmin && (
               <span style={{
-                background:'rgba(255,95,31,0.12)', border:'1px solid rgba(255,95,31,0.3)',
+                background:'rgba(245,114,10,0.10)', border:'1px solid rgba(245,114,10,0.3)',
                 borderRadius:'var(--radius-xs)', padding:'3px 10px', fontSize:9, fontWeight:700, color:'var(--orange)',
               }}>🔑 ADMIN</span>
             )}
@@ -253,7 +254,7 @@ function ModalShell({ open, onClose, title, subtitle, children, width='min(900px
       backdropFilter:'blur(4px)', animation:'fadeIn .15s ease',
     }} onClick={e => e.target===e.currentTarget && onClose()}>
       <div style={{
-        background:'var(--bg-2)', border:'1px solid var(--border-hi)',
+        background:'rgba(240,250,255,0.97)', border:'1px solid rgba(100,170,220,0.35)', boxShadow:'0 8px 40px rgba(80,160,220,0.15)',
         borderRadius:16, width, maxHeight:'92vh', overflow:'hidden',
         display:'flex', flexDirection:'column', boxShadow:'0 24px 80px rgba(0,0,0,.6)',
       }}>
@@ -364,7 +365,7 @@ function RegisterModal({ open, onClose, onSave, editData }) {
           <div style={{
             height:160, borderRadius:'var(--radius)', border:'1px dashed var(--border)',
             display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', overflow:'hidden',
-            background:'rgba(255,255,255,0.03)', transition:'border .2s',
+            background:'rgba(255,255,255,0.6)', transition:'border .2s',
           }} onClick={() => document.getElementById('_photoInput').click()}>
             {form.photo
               ? <img src={form.photo} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }}/>
@@ -375,7 +376,7 @@ function RegisterModal({ open, onClose, onSave, editData }) {
             }
           </div>
           <input type="file" id="_photoInput" accept="image/*" style={{ display:'none' }} onChange={onPhoto}/>
-          <div style={{ fontSize:10, color:'var(--text-3)', background:'rgba(255,255,255,0.03)', borderRadius:6, padding:'6px 10px', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+          <div style={{ fontSize:10, color:'var(--text-3)', background:'rgba(200,230,248,0.5)', borderRadius:6, padding:'6px 10px', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
             {form.photoName || 'Файл не выбран'}
           </div>
         </div>
@@ -434,7 +435,7 @@ function ProfileModal({ open, onClose, participant, isAdmin, onEdit, onBMI }) {
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:16 }}>
         {fields.map(([lbl,val,clr]) => (
-          <div key={lbl} style={{ background:'rgba(255,255,255,0.04)', borderRadius:'var(--radius-xs)', padding:'10px 12px', border:'1px solid var(--border)' }}>
+          <div key={lbl} style={{ background:'rgba(255,255,255,0.65)', borderRadius:'var(--radius-xs)', padding:'10px 12px', border:'1px solid rgba(100,170,220,0.2)' }}>
             <div style={{ fontSize:9, color:'var(--text-3)', marginBottom:3, letterSpacing:'.04em' }}>{lbl}</div>
             <div style={{ fontSize:13, fontWeight:600, color:clr }}>{val}</div>
           </div>
@@ -457,7 +458,7 @@ function ConfirmModal({ open, name, onConfirm, onCancel }) {
   if (!open) return null
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,.8)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:300, backdropFilter:'blur(4px)' }}>
-      <div style={{ background:'var(--bg-2)', border:'1px solid rgba(255,75,110,0.3)', borderRadius:16, padding:'32px 36px', textAlign:'center', width:'min(380px,90vw)', boxShadow:'0 24px 60px rgba(0,0,0,.5)' }}>
+      <div style={{ background:'rgba(240,250,255,0.97)', border:'1px solid rgba(220,60,80,0.3)', borderRadius:16, padding:'32px 36px', textAlign:'center', width:'min(380px,90vw)', boxShadow:'0 24px 60px rgba(0,0,0,.5)' }}>
         <div style={{ fontSize:36, marginBottom:12 }}>🗑️</div>
         <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, marginBottom:6 }}>Удалить участника?</div>
         <div style={{ fontSize:12, color:'var(--text-2)', marginBottom:24 }}>{name}</div>
@@ -489,7 +490,7 @@ function BMIPage({ runner, onBack, onSave }) {
   }
 
   return (
-    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'var(--bg)' }}>
+    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'transparent' }}>
       <nav style={{ ...glassNav, height:60, display:'flex', alignItems:'center', padding:'0 20px', gap:12, flexShrink:0 }}>
         <button style={btnGhost} onClick={onBack}>← Назад</button>
         <div style={{ flex:1, textAlign:'center', fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, letterSpacing:'.08em' }}>ИМТ КАЛЬКУЛЯТОР</div>
@@ -559,13 +560,13 @@ function AdminLoginPage({ onBack, onLogin }) {
     else setErr('Неверный логин или пароль')
   }
   return (
-    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'var(--bg)' }}>
+    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'transparent' }}>
       <nav style={{ ...glassNav, height:60, display:'flex', alignItems:'center', padding:'0 20px', gap:12, flexShrink:0 }}>
         <button style={btnGhost} onClick={onBack}>← Назад</button>
         <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, letterSpacing:'.08em' }}>MARATHON SKILLS 2026</span>
       </nav>
       <div style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center' }}>
-        <div style={{ ...card, width:'min(400px,90vw)', padding:'36px 32px', border:'1px solid var(--border-hi)' }}>
+        <div style={{ ...card, width:'min(400px,90vw)', padding:'36px 32px', border:'1px solid rgba(100,170,220,0.35)', boxShadow:'0 8px 40px rgba(80,160,220,0.15)' }}>
           <div style={{ textAlign:'center', marginBottom:24 }}>
             <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, letterSpacing:'.06em', marginBottom:6 }}>АВТОРИЗАЦИЯ</div>
             <div style={{ fontSize:11, color:'var(--text-3)' }}>Введите логин и пароль администратора</div>
@@ -609,13 +610,13 @@ function UsersPage({ participants, isAdmin, onBack, onProfile, onEdit, onDelete,
   const pages = Math.max(1, Math.ceil(list.length / PER_PAGE))
   const paged = list.slice((page-1)*PER_PAGE, page*PER_PAGE)
 
-  const thStyle = { padding:'10px 14px', textAlign:'left', fontSize:9, fontWeight:700, color:'var(--text-3)', letterSpacing:'.08em', borderBottom:'1px solid var(--border)', whiteSpace:'nowrap', background:'var(--bg-1)', position:'sticky', top:0 }
-  const tdStyle = { padding:'9px 14px', fontSize:12, borderBottom:'1px solid rgba(255,255,255,0.04)' }
+  const thStyle = { padding:'10px 14px', textAlign:'left', fontSize:9, fontWeight:700, color:'var(--text-3)', letterSpacing:'.08em', borderBottom:'1px solid var(--border)', whiteSpace:'nowrap', background:'rgba(210,235,252,0.9)', position:'sticky', top:0 }
+  const tdStyle = { padding:'9px 14px', fontSize:12, borderBottom:'1px solid rgba(100,170,220,0.1)' }
 
   const roleColors = { 'Бегун':'var(--blue)', 'Координатор':'var(--purple)' }
 
   return (
-    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'var(--bg)' }}>
+    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'transparent' }}>
       {/* NAV */}
       <nav style={{ ...glassNav, height:60, display:'flex', alignItems:'center', padding:'0 20px', gap:12, flexShrink:0 }}>
         <button style={btnGhost} onClick={onBack}>← Назад</button>
@@ -624,15 +625,15 @@ function UsersPage({ participants, isAdmin, onBack, onProfile, onEdit, onDelete,
       </nav>
 
       {/* FILTERS */}
-      <div style={{ background:'var(--bg-1)', borderBottom:'1px solid var(--border)', padding:'12px 20px' }}>
+      <div style={{ background:'rgba(220,238,252,0.85)', borderBottom:'1px solid var(--border)', padding:'12px 20px' }}>
         <div style={{ display:'flex', flexWrap:'wrap', gap:10, alignItems:'center' }}>
           <div style={{ display:'flex', gap:6 }}>
             {['Все','Бегун','Координатор'].map(r => (
               <button key={r} style={{
                 ...btnGhost, height:30, fontSize:11,
-                background: roleFilter===r ? 'var(--orange)' : 'rgba(255,255,255,0.05)',
+                background: roleFilter===r ? 'var(--orange)' : 'rgba(255,255,255,0.65)',
                 color: roleFilter===r ? '#fff' : 'var(--text-2)',
-                border: roleFilter===r ? 'none' : '1px solid var(--border)',
+                border: roleFilter===r ? 'none' : '1px solid rgba(100,170,220,0.25)',
               }} onClick={()=>{setRoleFilter(r);setPage(1)}}>{r}</button>
             ))}
           </div>
@@ -662,7 +663,7 @@ function UsersPage({ participants, isAdmin, onBack, onProfile, onEdit, onDelete,
             <tbody>
               {paged.map((p,i) => (
                 <tr key={p.id} style={{ cursor:'pointer', transition:'background .15s' }}
-                  onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.03)'}
+                  onMouseEnter={e=>e.currentTarget.style.background='rgba(200,230,252,0.4)'}
                   onMouseLeave={e=>e.currentTarget.style.background=''}
                   onClick={()=>onProfile(p)}>
                   <td style={{ ...tdStyle, color:'var(--text-3)', width:40 }}>{(page-1)*PER_PAGE+i+1}</td>
@@ -682,7 +683,7 @@ function UsersPage({ participants, isAdmin, onBack, onProfile, onEdit, onDelete,
                   <td style={{ ...tdStyle, color:bmiColor(p.bmi), fontWeight:600 }}>{p.bmi?p.bmi.toFixed(1):'—'}</td>
                   <td style={tdStyle}>
                     <span style={{
-                      background: p.role==='Бегун'?'rgba(78,159,255,0.12)':'rgba(155,109,255,0.12)',
+                      background: p.role==='Бегун'?'rgba(26,127,196,0.12)':'rgba(107,79,200,0.12)',
                       color: roleColors[p.role]||'var(--text)',
                       borderRadius:4, padding:'2px 8px', fontSize:10, fontWeight:700,
                     }}>{p.role}</span>
@@ -706,7 +707,7 @@ function UsersPage({ participants, isAdmin, onBack, onProfile, onEdit, onDelete,
       </div>
 
       {/* PAGINATION */}
-      <div style={{ background:'var(--bg-1)', borderTop:'1px solid var(--border)', height:46, display:'flex', alignItems:'center', padding:'0 20px', gap:8, flexShrink:0 }}>
+      <div style={{ background:'rgba(220,238,252,0.85)', borderTop:'1px solid var(--border)', height:46, display:'flex', alignItems:'center', padding:'0 20px', gap:8, flexShrink:0 }}>
         <button style={{ ...btnGhost, height:28, width:28, padding:0, justifyContent:'center' }} disabled={page<=1} onClick={()=>setPage(p=>p-1)}>‹</button>
         <span style={{ fontSize:11, color:'var(--text-3)', minWidth:80, textAlign:'center' }}>Стр. {page} / {pages}</span>
         <button style={{ ...btnGhost, height:28, width:28, padding:0, justifyContent:'center' }} disabled={page>=pages} onClick={()=>setPage(p=>p+1)}>›</button>
@@ -766,7 +767,7 @@ export default function Home() {
   const topCountry = (() => { const c={}; participants.forEach(p=>{ if(p.country) c[p.country]=(c[p.country]||0)+1 }); return Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—' })()
 
   if (status==='loading') return (
-    <div style={{ background:'var(--bg)', color:'var(--text)', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-body)' }}>
+    <div style={{ background:'transparent', color:'var(--text)', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-body)' }}>
       <div style={{ textAlign:'center' }}>
         <div style={{ fontSize:40, marginBottom:12, animation:'spin 1s linear infinite', display:'inline-block' }}>🏃</div>
         <div style={{ color:'var(--text-3)', fontSize:13 }}>Загрузка...</div>
@@ -776,12 +777,12 @@ export default function Home() {
 
   /* PUBLIC LANDING */
   if (!session) return (
-    <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'var(--bg)', fontFamily:'var(--font-body)', color:'var(--text)' }}>
+    <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'transparent', fontFamily:'var(--font-body)', color:'var(--text)' }}>
       <Navbar session={null} isAdmin={false} onUsers={()=>{}} onRegister={()=>{}} onAdminLogin={()=>{}} onAdminLogout={()=>{}}/>
 
       <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'60px 24px', textAlign:'center', position:'relative' }}>
         {/* Background glow */}
-        <div style={{ position:'absolute', top:'30%', left:'50%', transform:'translate(-50%,-50%)', width:600, height:400, background:'radial-gradient(ellipse, rgba(255,95,31,0.12) 0%, transparent 70%)', pointerEvents:'none' }}/>
+        <div style={{ position:'absolute', top:'30%', left:'50%', transform:'translate(-50%,-50%)', width:600, height:400, background:'radial-gradient(ellipse, rgba(100,180,240,0.20) 0%, transparent 70%)', pointerEvents:'none' }}/>
 
         {/* Logo */}
         <div style={{ position:'relative', marginBottom:24 }}>
@@ -789,7 +790,7 @@ export default function Home() {
           <div style={{ position:'absolute', inset:0, borderRadius:'50%', border:'2px solid rgba(255,95,31,0.2)', animation:'pulse-ring 2s ease-out infinite' }}/>
         </div>
 
-        <div style={{ fontFamily:'var(--font-display)', fontSize:36, fontWeight:900, letterSpacing:'.05em', marginBottom:8, background:'linear-gradient(135deg, #fff 40%, var(--orange-2))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+        <div style={{ fontFamily:'var(--font-display)', fontSize:36, fontWeight:900, letterSpacing:'.05em', marginBottom:8, background:'linear-gradient(135deg, #0d2840 30%, var(--orange))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
           MARATHON SKILLS
         </div>
         <div style={{ fontFamily:'var(--font-display)', fontSize:13, color:'var(--orange)', fontWeight:700, letterSpacing:'.2em', marginBottom:8 }}>2026</div>
@@ -879,18 +880,19 @@ export default function Home() {
   ]
 
   return (
-    <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'var(--bg)', fontFamily:'var(--font-body)', color:'var(--text)' }}>
+    <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'transparent', fontFamily:'var(--font-body)', color:'var(--text)' }}>
       <Navbar onUsers={()=>setView('users')} onRegister={()=>{setEditTarget(null);setRegisterOpen(true)}} onAdminLogin={()=>setView('adminLogin')} session={session} isAdmin={isAdmin} onAdminLogout={()=>setIsAdmin(false)}/>
 
       <div style={{ flex:1, overflowY:'auto', padding:'24px' }}>
         {/* Hero */}
         <div style={{
           borderRadius:16, overflow:'hidden', position:'relative', marginBottom:20,
-          background:'linear-gradient(135deg, rgba(255,95,31,0.15) 0%, rgba(78,159,255,0.05) 60%, transparent 100%)',
-          border:'1px solid var(--border)', padding:'28px 32px',
+          background:'linear-gradient(135deg, rgba(255,140,60,0.10) 0%, rgba(100,180,240,0.12) 60%, rgba(255,255,255,0.3) 100%)',
+          border:'1px solid rgba(100,170,220,0.25)',
+          boxShadow:'0 4px 24px rgba(80,160,220,0.12)', padding:'28px 32px',
         }}>
           <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at 80% 50%, rgba(255,95,31,0.08) 0%, transparent 60%)', pointerEvents:'none' }}/>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:900, letterSpacing:'.04em', marginBottom:4, background:'linear-gradient(90deg,#fff,var(--orange-2))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+          <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:900, letterSpacing:'.04em', marginBottom:4, background:'linear-gradient(90deg,#0d2840,var(--orange))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
             MARATHON SKILLS 2026
           </div>
           <div style={{ fontSize:13, color:'var(--text-2)', marginBottom:16 }}>42.195 КМ · 15 ИЮНЯ 2026 · АЛМАТЫ</div>
@@ -913,7 +915,7 @@ export default function Home() {
               <div style={{ fontSize:22, marginBottom:6 }}>{s.icon}</div>
               <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:s.color, lineHeight:1 }}>{s.val}</div>
               <div style={{ fontSize:9, color:'var(--text-3)', marginTop:4, fontWeight:600, letterSpacing:'.06em' }}>{s.label.toUpperCase()}</div>
-              <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:s.color, opacity:.6 }}/>
+              <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:s.color, opacity:.8 }}/>
             </div>
           ))}
         </div>
@@ -921,7 +923,7 @@ export default function Home() {
         {/* Telegram banner */}
         <a href="https://t.me/martthon_bot" target="_blank" rel="noopener noreferrer" style={{
           display:'flex', alignItems:'center', gap:14,
-          background:'rgba(33,150,243,0.07)', border:'1px solid rgba(33,150,243,0.18)',
+          background:'rgba(33,150,243,0.08)', border:'1px solid rgba(33,150,243,0.22)',
           borderRadius:'var(--radius)', padding:'14px 20px', marginBottom:16,
           textDecoration:'none',
         }}>
