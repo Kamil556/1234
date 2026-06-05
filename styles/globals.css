@@ -1,45 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Sky light theme backgrounds */
-  --bg:        #e8f4fd;
-  --bg-1:      #daeef9;
-  --bg-2:      #f0f8fe;
-  --bg-3:      #cce6f5;
-  --bg-card:   rgba(255,255,255,0.72);
-  --bg-hover:  rgba(255,255,255,0.92);
-  --border:    rgba(100,170,220,0.22);
-  --border-hi: rgba(80,150,210,0.38);
+  /* Sky palette */
+  --sky-dawn:    #FFF8F0;
+  --sky-light:   #EBF6FF;
+  --sky-blue:    #D6EEFF;
+  --sky-mid:     #B8DFFF;
+  --sky-deep:    #7EC8F7;
+  --sky-horizon: #4AACF0;
+  --sky-true:    #1A8DD8;
+  --sky-dark:    #0F6BAD;
 
-  /* Brand — keep orange as accent, shift others to sky */
-  --orange:    #F5720A;
-  --orange-2:  #FF9A3C;
-  --orange-glow: rgba(245,114,10,0.25);
-  --gold:      #D4860A;
-  --teal:      #0097B2;
-  --blue:      #1A7FC4;
-  --purple:    #6B4FC8;
-  --red:       #E03050;
-  --green:     #1BA85A;
-  --yellow:    #D4940A;
+  --cloud-white: #FFFFFF;
+  --cloud-soft:  #F5FBFF;
+  --cloud-gray:  #E2F0FA;
 
-  /* Text — dark on light */
-  --text:      #0d2840;
-  --text-2:    rgba(13,40,64,0.65);
-  --text-3:    rgba(13,40,64,0.38);
+  --sun:         #FFB830;
+  --sun-light:   #FFD97A;
+  --sun-glow:    rgba(255,184,48,0.25);
 
-  --font-display: 'Raleway', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
+  --accent:      #1A8DD8;
+  --accent-2:    #0F6BAD;
+  --accent-soft: rgba(26,141,216,0.12);
+  --accent-border: rgba(26,141,216,0.2);
 
-  --radius:   12px;
-  --radius-sm: 8px;
-  --radius-xs: 6px;
+  --green:       #2ECC8A;
+  --red:         #FF5C6A;
+  --purple:      #8B6CF7;
+  --yellow:      #FFB830;
+
+  --text:        #1A2B3C;
+  --text-2:      #4A6580;
+  --text-3:      #8AAFC8;
+  --text-inv:    #FFFFFF;
+
+  --border:      rgba(26,141,216,0.15);
+  --border-hi:   rgba(26,141,216,0.28);
+  --shadow:      0 2px 16px rgba(74,172,240,0.14);
+  --shadow-lg:   0 8px 40px rgba(74,172,240,0.22);
+
+  --font-display: 'Outfit', sans-serif;
+  --font-body:    'Nunito', sans-serif;
+
+  --radius:    14px;
+  --radius-sm: 10px;
+  --radius-xs: 8px;
 }
 
 html, body {
-  background: var(--bg);
+  background: var(--sky-light);
   color: var(--text);
   font-family: var(--font-body);
   font-size: 13px;
@@ -48,79 +59,33 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Animated sky gradient background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(168,218,247,0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 15%, rgba(200,232,255,0.5) 0%, transparent 55%),
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(220,242,255,0.6) 0%, transparent 50%),
-    linear-gradient(180deg, #c9e8f8 0%, #ddf1ff 30%, #e8f6ff 60%, #f5fbff 100%);
-  z-index: -1;
-  animation: skyShift 20s ease-in-out infinite alternate;
-}
-
-/* Cloud layer */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(ellipse 160px 60px at 15% 12%, rgba(255,255,255,0.7) 0%, transparent 70%),
-    radial-gradient(ellipse 120px 45px at 72% 8%, rgba(255,255,255,0.65) 0%, transparent 70%),
-    radial-gradient(ellipse 200px 70px at 45% 20%, rgba(255,255,255,0.5) 0%, transparent 70%),
-    radial-gradient(ellipse 100px 40px at 88% 25%, rgba(255,255,255,0.6) 0%, transparent 70%);
-  z-index: -1;
-  pointer-events: none;
-  animation: cloudDrift 40s linear infinite;
-}
-
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: rgba(100,170,220,0.1); }
-::-webkit-scrollbar-thumb { background: rgba(100,170,220,0.45); border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--sky-blue); }
+::-webkit-scrollbar-thumb { background: var(--sky-deep); border-radius: 3px; }
 
-::selection { background: rgba(245,114,10,0.18); color: var(--text); }
+::selection { background: var(--sky-mid); color: var(--text); }
 
-button { font-family: var(--font-body); }
-input, select, textarea { font-family: var(--font-body); }
-
-@keyframes skyShift {
-  0%   { filter: hue-rotate(0deg) brightness(1); }
-  50%  { filter: hue-rotate(8deg) brightness(1.04); }
-  100% { filter: hue-rotate(-5deg) brightness(0.97); }
-}
-
-@keyframes cloudDrift {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(60px); }
-}
-
-@keyframes pulse-ring {
-  0%   { transform: scale(0.8); opacity: 0.8; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
-}
+button, input, select, textarea { font-family: var(--font-body); }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-8px); }
 }
-
+@keyframes cloud-drift {
+  0%   { transform: translateX(0px); }
+  50%  { transform: translateX(12px); }
+  100% { transform: translateX(0px); }
+}
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-
-@keyframes cloudFloat {
-  0%, 100% { transform: translateX(0) translateY(0); }
-  33%       { transform: translateX(8px) translateY(-3px); }
-  66%       { transform: translateX(-5px) translateY(2px); }
+@keyframes pulse-sun {
+  0%, 100% { box-shadow: 0 0 0 0 var(--sun-glow); }
+  50%       { box-shadow: 0 0 0 16px transparent; }
 }
